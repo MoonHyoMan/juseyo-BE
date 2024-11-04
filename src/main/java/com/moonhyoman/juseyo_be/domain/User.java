@@ -14,14 +14,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Child {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    private String pwd;
+    private String password;
     private String name;
     private String accountNum;
+    private String type;
+    private int point;
 
     private String parent;
 }
