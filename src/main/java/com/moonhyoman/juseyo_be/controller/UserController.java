@@ -2,6 +2,7 @@ package com.moonhyoman.juseyo_be.controller;
 
 import com.moonhyoman.juseyo_be.domain.User;
 import com.moonhyoman.juseyo_be.dto.LoginRequest;
+import com.moonhyoman.juseyo_be.dto.SignupRequest;
 import com.moonhyoman.juseyo_be.security.jwt.JwtGenerator;
 import com.moonhyoman.juseyo_be.security.jwt.JwtToken;
 import com.moonhyoman.juseyo_be.service.UserService;
@@ -39,6 +40,16 @@ public class UserController {
 
         // JWT를 포함한 응답
         return ResponseEntity.ok(jwt);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity signup(@RequestBody SignupRequest signupRequest){
+        User user = userService.signup(signupRequest);
+        if(user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 아이디입니다.");
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/token-test")
