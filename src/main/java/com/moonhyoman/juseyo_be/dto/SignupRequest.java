@@ -1,5 +1,6 @@
 package com.moonhyoman.juseyo_be.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +21,7 @@ public class SignupRequest {
     private String password;
     private String name;
     private String accountNum;
+    @Schema(description = "User type (parent or child)", allowableValues = {"parent", "child"})
     private String type;
     private Integer point;
     private String parentId;
