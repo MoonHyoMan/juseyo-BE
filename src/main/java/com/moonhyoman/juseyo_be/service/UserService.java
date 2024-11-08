@@ -61,4 +61,11 @@ public class UserService {
         // User 객체 저장
         return userRepository.save(newUser);
     }
+
+    public Boolean idDuplicate(String id){
+        if(userRepository.existsById(id)){
+            return true;
+        }
+        return false;
+    }
 }

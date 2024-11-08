@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
 public class UserController {
     private final UserService userService;
     private final JwtGenerator jwtGenerator;
@@ -49,6 +49,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 아이디입니다.");
         }
 
+        return ResponseEntity.ok().build();
+    }
+
+    // 아이디 중복 체크
+    @GetMapping("/id-duplicate")
+    public ResponseEntity checkIdDuplicate(@RequestParam String id) {
+        boolean exists = userService.idDuplicate(id);
+
+        if(exists){
+            return ResponseEntity.ok("exist");
+        }
         return ResponseEntity.ok().build();
     }
 
