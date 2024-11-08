@@ -54,7 +54,6 @@ public class AuthService {
                 .name(req.getName())
                 .accountNum(req.getAccountNum())
                 .type(req.getType())
-                .point(req.getPoint() != null ? req.getPoint() : 0)
                 .parentId(req.getParentId())
                 .build();
 
