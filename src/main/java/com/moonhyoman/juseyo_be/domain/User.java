@@ -25,4 +25,8 @@ public class User {
     private int point;
 
     private String parentId;
+
+    public void changePassword(String password){
+        this.password = password;
+    }
 }

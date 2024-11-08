@@ -2,6 +2,7 @@ package com.moonhyoman.juseyo_be.controller;
 
 import com.moonhyoman.juseyo_be.domain.User;
 import com.moonhyoman.juseyo_be.dto.LoginRequest;
+import com.moonhyoman.juseyo_be.dto.PasswordChangeRequest;
 import com.moonhyoman.juseyo_be.dto.SignupRequest;
 import com.moonhyoman.juseyo_be.security.jwt.JwtGenerator;
 import com.moonhyoman.juseyo_be.security.jwt.JwtToken;
@@ -9,6 +10,8 @@ import com.moonhyoman.juseyo_be.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "로그인 및 회원가입 관련 API")
 public class AuthController {
     private final AuthService authService;
     private final JwtGenerator jwtGenerator;
@@ -84,10 +88,20 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/token-test")
-    public String testToken(Authentication authentication) {
-        String id = authentication.getName();
-        System.out.println(id);
-        return id;
+    // 비밀번호 변경
+    @PutMapping("/password-change")
+    @Operation(summary = "비밀번호 변경(JWT 필요)",
+            description = "비밀번호 변경 API<br>" +
+                    "jwt 필요한 api")
+    @Parameters({
+            @Parameter(name = "nowPassword", description = "현재 비밀번호", example = "nowPassword"),
+            @Parameter(name = "changePassword", description = "변경할 비밀번호", example = "changePassword"),
+    })
+    public ResponseEntity passwordChange(Authentication authentication, @RequestBody PasswordChangeRequest passwordChangeRequest){
+        Boolean result = authService.passwordChange(authentication.getName(), passwordChangeRequest);
+        if(!result){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 일치하기 않습니다.");
+        }
+        return ResponseEntity.ok().build();
     }
 }

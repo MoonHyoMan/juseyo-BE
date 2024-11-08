@@ -2,6 +2,7 @@ package com.moonhyoman.juseyo_be.service;
 
 import com.moonhyoman.juseyo_be.domain.User;
 import com.moonhyoman.juseyo_be.dto.LoginRequest;
+import com.moonhyoman.juseyo_be.dto.PasswordChangeRequest;
 import com.moonhyoman.juseyo_be.dto.SignupRequest;
 import com.moonhyoman.juseyo_be.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -66,5 +68,30 @@ public class AuthService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public Boolean passwordChange(String id, PasswordChangeRequest passwordChangeRequest){
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.get();
+        if(!passwordEncoder.matches(passwordChangeRequest.getNowPassword(), user.getPassword())) {
+            return false;
+        }
+
+        // 비밀번호 변경
+        String encodedPassword = passwordEncoder.encode(passwordChangeRequest.getChangePassword());
+        user.changePassword(encodedPassword);
+
+        // 변경 후 다시 사용자를 조회하여 비밀번호가 변경되었는지 확인
+        Optional<User> updatedUser = userRepository.findById(id);
+
+        // 비밀번호가 변경되었는지 확인
+        if (updatedUser.isPresent() && passwordEncoder.matches(passwordChangeRequest.getChangePassword(), updatedUser.get().getPassword())) {
+            log.info("Password changed successfully for user: {}", id);
+            return true;
+        } else {
+            log.error("Failed to change password for user: {}", id);
+            return false;
+        }
     }
 }
