@@ -4,6 +4,7 @@ import com.moonhyoman.juseyo_be.domain.User;
 import com.moonhyoman.juseyo_be.dto.LoginRequest;
 import com.moonhyoman.juseyo_be.dto.SignupRequest;
 import com.moonhyoman.juseyo_be.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserService {
+public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
@@ -37,7 +38,6 @@ public class UserService {
 
         return user;
     }
-
 
     public User signup(SignupRequest req) {
         // 동일 ID가 있는지 확인
