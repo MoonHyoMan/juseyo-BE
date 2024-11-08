@@ -1,28 +1,28 @@
-package com.moonhyoman.juseyo_be.domain;
+package com.moonhyoman.juseyo_be.dto;
 
-import jakarta.persistence.Entity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Builder
+import java.util.UUID;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class SignupRequest {
     @Id
     private String id;
 
     private String password;
     private String name;
     private String accountNum;
+    @Schema(description = "User type (parent or child)", allowableValues = {"parent", "child"})
     private String type;
-    private int point;
-
+    private Integer point;
     private String parentId;
 }
