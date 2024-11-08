@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequest LoginRequest) {
         User user = userService.login(LoginRequest);
-        log.info("user: {}", user.getId());
+//        log.info("user: {}", user.getId());
         if(user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인 실패");
         }
