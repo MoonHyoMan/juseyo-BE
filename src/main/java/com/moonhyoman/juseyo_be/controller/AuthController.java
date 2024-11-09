@@ -129,8 +129,11 @@ public class AuthController {
 
         User user = authService.findById(email);
 //        log.info("user: {}", user.getId());
-        if(user == null || user.getSocial()==null) {
+        if(user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인 실패");
+        }
+        if(user.getSocial()==null){
+            authService.linkSocial(email, "kakao");
         }
         // JWT 생성
         JwtToken jwt = jwtGenerator.generateToken(user.getId());

@@ -2,6 +2,7 @@ package com.moonhyoman.juseyo_be.service;
 
 import aj.org.objectweb.asm.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moonhyoman.juseyo_be.domain.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class KakaoLoginService {

@@ -108,4 +108,12 @@ public class AuthService {
 
         return user;
     }
+
+    @Transactional
+    public void linkSocial(String id, String social){
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.get();
+
+        user.linkSocial(social);
+    }
 }
