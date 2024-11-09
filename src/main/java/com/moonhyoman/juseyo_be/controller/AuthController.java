@@ -70,6 +70,11 @@ public class AuthController {
         if(!signupRequest.getType().equals("child") && !signupRequest.getType().equals("parent")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("type에는 child나 parent만 입력 가능합니다.");
         }
+        if(signupRequest.getType().equals("child")){
+            if(signupRequest.getParentId()==null || signupRequest.getParentId().equals("")){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("자식으로 회원가입시 parent_id는 필수입니다.");
+            }
+        }
 
         User user = authService.signup(signupRequest);
         if(user == null) {
