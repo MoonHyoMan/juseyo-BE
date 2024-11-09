@@ -26,6 +26,8 @@ public class User {
 
     private String parentId;
 
+    private String social;
+
     public void changePassword(String password){
         this.password = password;
     }

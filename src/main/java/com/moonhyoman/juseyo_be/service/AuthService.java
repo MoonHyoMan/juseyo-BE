@@ -8,6 +8,8 @@ import com.moonhyoman.juseyo_be.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@PropertySource("classpath:application.yml")
 public class AuthService {
 
     @Autowired
@@ -93,5 +96,16 @@ public class AuthService {
             log.error("Failed to change password for user: {}", id);
             return false;
         }
+    }
+
+    public User findById(String id){
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isEmpty()) {
+            return null;
+        }
+        User user = optionalUser.get();
+
+        return user;
     }
 }

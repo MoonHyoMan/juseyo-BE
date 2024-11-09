@@ -24,4 +24,6 @@ public class SignupRequest {
     @Schema(description = "User type (parent or child)", allowableValues = {"parent", "child"})
     private String type;
     private String parentId;
+
+    private String social;
 }
