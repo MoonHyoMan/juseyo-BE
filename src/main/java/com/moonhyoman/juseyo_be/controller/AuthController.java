@@ -62,7 +62,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Operation(summary = "회원가입", description = "기본 회원가입 api")
-    @Parameters({@Parameter(name = "id", description = "아이디", example = "chrome123@naver.com"), @Parameter(name = "password", description = "비밀번호", example = "abcd1234"), @Parameter(name = "name", description = "이름", example = "김춘배"), @Parameter(name = "accountNum", description = "계좌번호 더미라 대충 보내도 ㄱㅊ", example = "1234-5678"), @Parameter(name = "type", description = "자식인지(child), 부모인지(parent)", example = "child"), @Parameter(name = "parentId", description = "필수값X<br>" + "근데 자식 회원가입이면 넣어야 함." + "<br>부모 아이디를 넣어야 함.", example = "admin"), @Parameter(name = "social", description = "필수값X<br>" + "kakao or naver 넣어주면 됨")})
+    @Parameters({@Parameter(name = "id", description = "아이디", example = "chrome123@naver.com"),
+            @Parameter(name = "password", description = "비밀번호", example = "abcd1234"),
+            @Parameter(name = "name", description = "이름", example = "김춘배"),
+            @Parameter(name = "accountNum", description = "계좌번호 더미라 대충 보내도 ㄱㅊ", example = "1234-5678"),
+            @Parameter(name = "type", description = "자식인지(child), 부모인지(parent)", example = "child"),
+            @Parameter(name = "parentId", description = "필수값X<br>" + "근데 자식 회원가입이면 넣어야 함." + "<br>부모 아이디를 넣어야 함.", example = "admin"),
+            @Parameter(name = "social", description = "필수값X<br>" + "kakao or naver 넣어주면 됨")})
     public ResponseEntity signup(@RequestBody SignupRequest signupRequest) throws Exception {
         if (!signupRequest.getType().equals("child") && !signupRequest.getType().equals("parent")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("type에는 child나 parent만 입력 가능합니다.");
