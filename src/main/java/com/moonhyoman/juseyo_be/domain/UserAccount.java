@@ -1,6 +1,8 @@
 package com.moonhyoman.juseyo_be.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +16,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserAccount {
     @Id
-    public String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
 
     public String depositer;
     public String depositerType;
-    public String accountNumber;
+    public String accountNum;
     public int amount;
 }
