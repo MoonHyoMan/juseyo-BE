@@ -23,6 +23,7 @@ public class SignupRequest {
     private String accountNum;
     @Schema(description = "User type (parent or child)", allowableValues = {"parent", "child"})
     private String type;
-    private Integer point;
     private String parentId;
+
+    private String social;
 }

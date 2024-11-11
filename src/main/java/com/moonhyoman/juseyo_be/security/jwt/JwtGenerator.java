@@ -53,10 +53,6 @@ public class JwtGenerator {
                     .refreshToken(refreshToken)
                     .build();
 
-            log.info("#################################");
-            log.info("jwtToken : {}", jwtToken.toString());
-            log.info("#################################");
-
             return jwtToken;
         } catch (Exception e) {
             System.err.println("토큰 생성 중 오류 발생: " + e.getMessage());
