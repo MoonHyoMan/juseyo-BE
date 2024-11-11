@@ -20,12 +20,12 @@ public class User {
 
     private String password;
     private String name;
-    private String accountNum;
     private String type;
+
+    private String accountNum;
     private int point;
 
     private String parentId;
-
     private String social;
 
     public void changePassword(String password){

@@ -66,7 +66,7 @@ public class AuthController {
             @Parameter(name = "social", description = "필수값X<br>" +
                     "kakao or naver 넣어주면 됨")
     })
-    public ResponseEntity signup(@RequestBody SignupRequest signupRequest){
+    public ResponseEntity signup(@RequestBody SignupRequest signupRequest) throws Exception {
         if(!signupRequest.getType().equals("child") && !signupRequest.getType().equals("parent")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("type에는 child나 parent만 입력 가능합니다.");
         }
@@ -77,9 +77,6 @@ public class AuthController {
         }
 
         User user = authService.signup(signupRequest);
-        if(user == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 아이디입니다.");
-        }
 
         return ResponseEntity.ok().build();
     }

@@ -10,9 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -44,10 +46,13 @@ public class AuthService {
         return user;
     }
 
-    public User signup(SignupRequest req) {
+    public User signup(SignupRequest req) throws Exception {
         // 동일 ID가 있는지 확인
         if (userRepository.existsById(req.getId())) {
-            return null; // 이미 존재하는 ID인 경우 null 반환 (예외 처리로 대체 가능)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 존재하는 아이디입니다.");
+        }
+        if(req.getType().equals("child")&&userRepository.findByIdAndType(req.getParentId(), "parent").isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "부모 아이디가 존재하지 않습니다.");
         }
 
         String encodedPassword = passwordEncoder.encode(req.getPassword());
