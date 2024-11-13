@@ -30,7 +30,7 @@ public class JwtProvider {
 
     // application.yml에서 secret 값 가져와서 key에 저장
     @Autowired
-    public JwtProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtProvider(@Value("${JWT_SECRET}") String secretKey) {
         try {
             byte[] keyBytes = Decoders.BASE64.decode(secretKey);
             this.key = Keys.hmacShaKeyFor(keyBytes);

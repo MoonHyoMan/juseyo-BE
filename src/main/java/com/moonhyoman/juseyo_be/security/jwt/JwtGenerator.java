@@ -21,7 +21,7 @@ public class JwtGenerator {
     private static final String GRANT_TYPE = "Bearer "; // Grant type
 
     // application.yml에서 secret 값 가져와서 key에 저장
-    public JwtGenerator(@Value("${jwt.secret}") String secretKey) {
+    public JwtGenerator(@Value("${JWT_SECRET}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         log.info("Generated Key: {}", key);
