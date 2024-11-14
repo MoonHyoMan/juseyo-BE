@@ -89,12 +89,12 @@ public class AuthController {
 
     // 아이디 중복 체크
     @GetMapping("/id-duplicate")
-    @Operation(summary = "아이디 중복체크", description = "아이디 중복체크 API<br>" + "무조건 200 리턴함.<br>" + "아이디가 있으면 body에 exist를 담아서 보냄.")
+    @Operation(summary = "아이디 중복체크", description = "아이디 중복체크 API<br>" + "아이디가 있으면 400 리턴함.")
     public ResponseEntity checkIdDuplicate(@RequestParam String id) {
         boolean exists = authService.idDuplicate(id);
 
         if (exists) {
-            return ResponseEntity.ok("exist");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok().build();
     }
