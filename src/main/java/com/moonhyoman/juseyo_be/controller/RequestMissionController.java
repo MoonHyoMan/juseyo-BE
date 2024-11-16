@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/request-missions")
+@RequestMapping("/api/request-mission")
 @Tag(name = "요청 미션 API", description = "요청 미션 관련 API<br>" +
         "/parent는 부모만 사용 가능한 API<br>" +
         "/child는 자식만 사용 가능한 API")
@@ -33,7 +33,7 @@ public class RequestMissionController {
 
     @GetMapping("/all-list")
     @Operation(summary = "요청된 미션리스트 조회", description = "jwt 필요")
-    public ResponseEntity<List<RequestMission>> getAllRequestMissions(Authentication authentication) {
+    public ResponseEntity<List<RequestMission>> getAllRequestMission(Authentication authentication) {
         List<RequestMission> requestMissionList = requestMissionService.getAllRequestMission(authentication.getName());
 
         return ResponseEntity.ok(requestMissionList);
