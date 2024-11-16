@@ -19,8 +19,10 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/missions")
-@Tag(name = "mission", description = "미션 API")
+@RequestMapping("/api/request-mission")
+@Tag(name = "요청 미션 API", description = "요청 미션 관련 API<br>" +
+        "/parent는 부모만 사용 가능한 API<br>" +
+        "/child는 자식만 사용 가능한 API")
 public class RequestMissionController {
     private final RequestMissionService requestMissionService;
 
@@ -31,14 +33,14 @@ public class RequestMissionController {
 
     @GetMapping("/all-list")
     @Operation(summary = "요청된 미션리스트 조회", description = "jwt 필요")
-    public ResponseEntity<List<RequestMission>> getAllRequestMissions(Authentication authentication) {
+    public ResponseEntity<List<RequestMission>> getAllRequestMission(Authentication authentication) {
         List<RequestMission> requestMissionList = requestMissionService.getAllRequestMission(authentication.getName());
 
         return ResponseEntity.ok(requestMissionList);
     }
 
-    @PostMapping("/request")
-    @Operation(summary = "미션 요청", description = "jwt 필요")
+    @PostMapping("/child/request")
+    @Operation(summary = "미션 요청", description = "자녀만 사용 가능한 API")
     @Parameters({
             @Parameter(name = "startDate", description = "시작 날짜 시간", example = "2024-11-15 12:00:00"),
             @Parameter(name = "endDate", description = "마감 날짜 시간", example = "2024-11-30 12:00:00"),
@@ -53,6 +55,25 @@ public class RequestMissionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
         }
 
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/parent/approve/{id}")
+    @Operation(summary = "요청 미션 허가 API", description = "요청된 미션을 허가하는 API<br>" +
+            "id는 요청미션의 id입니다.<br>" +
+            "부모만 사용할 수 있는 API")
+    public ResponseEntity approveRequestMission(Authentication authentication, @PathVariable Long id){
+//        log.info("mission id: {}", id);
+        requestMissionService.approveMission(id, authentication.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/parent/reject/{id}")
+    @Operation(summary = "요청 미션 거절 API", description = "요청된 미션을 거절하는 API<br>" +
+            "id는 요청미션의 id입니다.<br>" +
+            "부모만 사용할 수 있는 API")
+    public ResponseEntity rejectRequestMission(Authentication authentication, @PathVariable Long id){
+        requestMissionService.rejectMission(id, authentication.getName());
         return ResponseEntity.ok().build();
     }
 }

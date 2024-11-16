@@ -34,7 +34,7 @@ public class JwtProvider {
         try {
             byte[] keyBytes = Decoders.BASE64.decode(secretKey);
             this.key = Keys.hmacShaKeyFor(keyBytes);
-            log.info("Provider key: {}", this.key);
+//            log.info("Provider key: {}", this.key);
             log.info("JWT Key 생성 성공");
         } catch (Exception e) {
             log.error("JwtProvider 생성 중 오류 발생", e);
@@ -64,7 +64,7 @@ public class JwtProvider {
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
-        log.info("ValidateToken: {}", token);
+//        log.info("ValidateToken: {}", token);
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)

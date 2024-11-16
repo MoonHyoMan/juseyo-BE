@@ -24,7 +24,7 @@ public class JwtGenerator {
     public JwtGenerator(@Value("${JWT_SECRET}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        log.info("Generated Key: {}", key);
+//        log.info("Generated Key: {}", key);
     }
 
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
