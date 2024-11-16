@@ -15,7 +15,6 @@ public class UserAccountService {
     public void insertUserAccount(String id, String type, String accountNum){
         UserAccount userAccount = UserAccount.builder()
                 .depositer(id)
-                .depositerType(type)
                 .accountNum(accountNum)
                 .amount(type.equals("child") ? 0 : 100000)
                 .build();

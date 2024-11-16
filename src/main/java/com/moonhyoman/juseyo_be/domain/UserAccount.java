@@ -20,7 +20,6 @@ public class UserAccount {
     public Long id;
 
     public String depositer;
-    public String depositerType;
     public String accountNum;
     public int amount;
 }

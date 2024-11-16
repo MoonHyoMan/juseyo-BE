@@ -1,6 +1,5 @@
 package com.moonhyoman.juseyo_be.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +16,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestMission {
+public class Mission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
@@ -29,8 +28,6 @@ public class RequestMission {
     public String endDate;
 
     public String content;
-
-    public String declineMessage;
 
     public String category;
 
