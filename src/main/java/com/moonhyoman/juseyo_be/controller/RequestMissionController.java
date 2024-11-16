@@ -57,9 +57,15 @@ public class RequestMissionController {
     }
 
     @GetMapping("/parent/approve/{id}")
-    public ResponseEntity approveMission(Authentication authentication, @PathVariable Long id){
+    public ResponseEntity approveRequestMission(Authentication authentication, @PathVariable Long id){
 //        log.info("mission id: {}", id);
         requestMissionService.approveMission(id, authentication.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/parent/reject/{id}")
+    public ResponseEntity rejectRequestMission(Authentication authentication, @PathVariable Long id){
+        requestMissionService.rejectMission(id, authentication.getName());
         return ResponseEntity.ok().build();
     }
 }
