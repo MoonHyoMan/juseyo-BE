@@ -30,4 +30,10 @@ public class MissionController {
         return ResponseEntity.ok(missionList);
     }
 
+    @GetMapping("/parent/complete/{id}")
+    public ResponseEntity completeMission(Authentication authentication,@PathVariable Long id){
+        log.info("id: {}", id);
+        missionService.completeMission(id, authentication.getName());
+        return ResponseEntity.ok().build();
+    }
 }
