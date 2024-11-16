@@ -40,11 +40,11 @@ public class RequestMissionController {
     @PostMapping("/request")
     @Operation(summary = "미션 요청", description = "jwt 필요")
     @Parameters({
-            @Parameter(name = "startDate", description = "시작 날짜", example = "2024-11-15"),
-            @Parameter(name = "endDate", description = "마감 날짜", example = "2024-11-30"),
+            @Parameter(name = "startDate", description = "시작 날짜 시간", example = "2024-11-15 12:00:00"),
+            @Parameter(name = "endDate", description = "마감 날짜 시간", example = "2024-11-30 12:00:00"),
             @Parameter(name = "content", description = "미션 내용", example = "설거지하기"),
             @Parameter(name = "category", description = "미션 카테고리", example = "집안일"),
-            @Parameter(name = "point", description = "경험치<br>" + "그냥 경험치 고정할까 고민중", example = "5")})
+            @Parameter(name = "point", description = "용돈 금액", example = "1000")})
     public ResponseEntity requestMission(Authentication Authentication, @RequestBody RequestMissionRequest requestMissionRequest) {
         log.info("Request Mission Request: {}", Authentication.getName());
         Boolean result = requestMissionService.addRequestMission(Authentication.getName(), requestMissionRequest);

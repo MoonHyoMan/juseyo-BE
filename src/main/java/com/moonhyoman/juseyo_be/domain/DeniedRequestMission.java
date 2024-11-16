@@ -17,7 +17,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestMission {
+public class DeniedRequestMission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
