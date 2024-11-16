@@ -30,8 +30,6 @@ public class RequestMission {
 
     public String content;
 
-    public String declineMessage;
-
     public String category;
 
     public int point;

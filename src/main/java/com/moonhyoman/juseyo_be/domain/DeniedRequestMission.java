@@ -19,7 +19,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class DeniedRequestMission {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     public String childId;
@@ -29,8 +28,6 @@ public class DeniedRequestMission {
     public String endDate;
 
     public String content;
-
-    public String declineMessage;
 
     public String category;
 

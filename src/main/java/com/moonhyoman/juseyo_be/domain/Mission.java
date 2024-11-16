@@ -18,7 +18,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class Mission {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     public String childId;

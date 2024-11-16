@@ -37,7 +37,7 @@ public class RequestMissionController {
         return ResponseEntity.ok(requestMissionList);
     }
 
-    @PostMapping("/request")
+    @PostMapping("/child/request")
     @Operation(summary = "미션 요청", description = "jwt 필요")
     @Parameters({
             @Parameter(name = "startDate", description = "시작 날짜 시간", example = "2024-11-15 12:00:00"),
@@ -53,6 +53,13 @@ public class RequestMissionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
         }
 
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/parent/approve/{id}")
+    public ResponseEntity approveMission(Authentication authentication, @PathVariable Long id){
+//        log.info("mission id: {}", id);
+        requestMissionService.approveMission(id, authentication.getName());
         return ResponseEntity.ok().build();
     }
 }
