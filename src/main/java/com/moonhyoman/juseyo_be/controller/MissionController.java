@@ -50,6 +50,7 @@ public class MissionController {
 
     @GetMapping("/parent/complete/{id}")
     @Operation(summary = "미션 성공 처리", description = "JWT 필요<br>" +
+            "id는 미션의 id입니다.<br>" +
             "부모만 호출 가능한 API")
     public ResponseEntity completeMission(Authentication authentication,@PathVariable Long id){
 //        log.info("id: {}", id);
@@ -59,6 +60,7 @@ public class MissionController {
 
     @GetMapping("/parent/fail/{id}")
     @Operation(summary = "미션 실패 처리", description = "JWT 필요<br>" +
+            "id는 미션의 id입니다.<br>" +
             "부모만 호출 가능한 API")
     public ResponseEntity failMission(Authentication authentication,@PathVariable Long id){
         missionService.failMission(id, authentication.getName());
