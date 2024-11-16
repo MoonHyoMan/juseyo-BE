@@ -60,7 +60,7 @@ public class RequestMissionService {
         User user = optionalUser.get();
         List<RequestMission> requestMissionList;
         if(user.getType().equals("parent")){
-            requestMissionList = requestMissionRepository.findAllByParentId(user.getParentId());
+            requestMissionList = requestMissionRepository.findAllByParentId(id);
         }else {
             requestMissionList = requestMissionRepository.findAllByChildId(id);
         }
@@ -69,7 +69,7 @@ public class RequestMissionService {
     }
 
     public void approveMission(Long id, String userId){
-        Optional<RequestMission> optionalRequestMission = requestMissionRepository.findByIdAndChildId(id, userId);
+        Optional<RequestMission> optionalRequestMission = requestMissionRepository.findByIdAndParentId(id, userId);
         if(optionalRequestMission.isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 미션 ID입니다.");
         }
@@ -94,7 +94,7 @@ public class RequestMissionService {
     }
 
     public void rejectMission(Long id, String userId){
-        Optional<RequestMission> optionalRequestMission = requestMissionRepository.findByIdAndChildId(id, userId);
+        Optional<RequestMission> optionalRequestMission = requestMissionRepository.findByIdAndParentId(id, userId);
         if(optionalRequestMission.isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 미션 ID입니다.");
         }

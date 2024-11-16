@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface RequestMissionRepository extends CrudRepository<RequestMission, Long> {
     List<RequestMission> findAllByParentId(String parentId);
     List<RequestMission> findAllByChildId(String childId);
-    Optional<RequestMission> findByIdAndChildId(Long Id, String childId);
+    Optional<RequestMission> findByIdAndParentId(Long Id, String parentId);
 }
