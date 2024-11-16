@@ -1,5 +1,7 @@
 package com.moonhyoman.juseyo_be.controller;
 
+import com.moonhyoman.juseyo_be.domain.CompleteMission;
+import com.moonhyoman.juseyo_be.domain.FailMission;
 import com.moonhyoman.juseyo_be.domain.Mission;
 import com.moonhyoman.juseyo_be.service.MissionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,10 +26,22 @@ public class MissionController {
         this.missionService = missionService;
     }
 
-    @GetMapping("/all-list")
-    public ResponseEntity<List<Mission>> getAllMission(Authentication authentication) {
-        List<Mission> missionList = missionService.getAllMission(authentication.getName());
+    @GetMapping("/progress-list")
+    public ResponseEntity<List<Mission>> getAllProgressMission(Authentication authentication) {
+        List<Mission> missionList = missionService.getAllProgressMission(authentication.getName());
         return ResponseEntity.ok(missionList);
+    }
+
+    @GetMapping("/complete-list")
+    public ResponseEntity<List<CompleteMission>> getAllCompleteMission(Authentication authentication) {
+        List<CompleteMission> completeMissionList = missionService.getAllCompleteMission(authentication.getName());
+        return ResponseEntity.ok(completeMissionList);
+    }
+
+    @GetMapping("/fail-list")
+    public ResponseEntity<List<FailMission>> getAllFailMission(Authentication authentication) {
+        List<FailMission> failMissionList = missionService.getAllFailMission(authentication.getName());
+        return ResponseEntity.ok(failMissionList);
     }
 
     @GetMapping("/parent/complete/{id}")

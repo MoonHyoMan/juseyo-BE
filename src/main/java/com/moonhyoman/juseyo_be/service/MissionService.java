@@ -33,7 +33,7 @@ public class MissionService {
     @Autowired
     private FailMissionRepository failMissionRepository;
 
-    public List<Mission> getAllMission(String userId){
+    public List<Mission> getAllProgressMission(String userId){
         Optional<User> optionalUser = userRepository.findById(userId);
         User user = optionalUser.get();
 
@@ -45,6 +45,34 @@ public class MissionService {
         }
 
         return missionList;
+    }
+
+    public List<CompleteMission> getAllCompleteMission(String userId){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User user = optionalUser.get();
+
+        List<CompleteMission> completeMissionList;
+        if(user.getType().equals("parent")){
+            completeMissionList = completeMissionRepository.findAllByParentId(userId);
+        }else{
+            completeMissionList = completeMissionRepository.findAllByChildId(userId);
+        }
+
+        return completeMissionList;
+    }
+
+    public List<FailMission> getAllFailMission(String userId){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User user = optionalUser.get();
+
+        List<FailMission> failMissionissionList;
+        if(user.getType().equals("parent")){
+            failMissionissionList = failMissionRepository.findAllByParentId(userId);
+        }else{
+            failMissionissionList = failMissionRepository.findAllByChildId(userId);
+        }
+
+        return failMissionissionList;
     }
 
     public void completeMission(Long id, String userId){
