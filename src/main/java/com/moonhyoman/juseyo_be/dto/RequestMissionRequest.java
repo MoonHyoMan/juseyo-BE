@@ -10,8 +10,8 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class RequestMissionRequest {
-    public Date startDate;
-    public Date endDate;
+    public String startDate;
+    public String endDate;
 
     public String content;
 
