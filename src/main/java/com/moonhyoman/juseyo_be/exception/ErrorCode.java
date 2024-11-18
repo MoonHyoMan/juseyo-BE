@@ -14,7 +14,7 @@ public enum ErrorCode {
     CONTENTS_NOT_FOUND(404, "C06", "Contents not found"),
 
     //퀴즈 관련 오류
-    QUIZ_ANSWER_IS_NOT_VALID(401, "Q01", "answer is not valid"),
+    QUIZ_ANSWER_IS_NOT_VALID(400, "Q01", "answer is not valid"),
     QUIZ_ANSWER_IS_VALID(200, "Q03", "answer is valid"),
     QUIZ_NOT_FOUND(404, "Q02", "Quiz not found by Contents Id"),
 
