@@ -1,11 +1,16 @@
 package com.moonhyoman.juseyo_be.service;
 
+import com.moonhyoman.juseyo_be.domain.Mission;
+import com.moonhyoman.juseyo_be.domain.RejectRequestMission;
 import com.moonhyoman.juseyo_be.domain.RequestMission;
 import com.moonhyoman.juseyo_be.domain.User;
 import com.moonhyoman.juseyo_be.dto.RequestMissionRequest;
+import com.moonhyoman.juseyo_be.repository.MissionRepository;
+import com.moonhyoman.juseyo_be.repository.RejectRequestMissionRepository;
 import com.moonhyoman.juseyo_be.repository.RequestMissionRepository;
 import com.moonhyoman.juseyo_be.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,10 @@ public class RequestMissionService {
     private RequestMissionRepository requestMissionRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MissionRepository missionRepository;
+    @Autowired
+    private RejectRequestMissionRepository rejectRequestMissionRepository;
 
     public Boolean addRequestMission(String id, RequestMissionRequest requestMissionRequest) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -51,11 +60,61 @@ public class RequestMissionService {
         User user = optionalUser.get();
         List<RequestMission> requestMissionList;
         if(user.getType().equals("parent")){
-            requestMissionList = requestMissionRepository.findAllByParentId(user.getParentId());
+            requestMissionList = requestMissionRepository.findAllByParentId(id);
         }else {
             requestMissionList = requestMissionRepository.findAllByChildId(id);
         }
 
         return requestMissionList;
+    }
+
+    public void approveMission(Long id, String userId){
+        Optional<RequestMission> optionalRequestMission = requestMissionRepository.findByIdAndParentId(id, userId);
+        if(optionalRequestMission.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 미션 ID입니다.");
+        }
+        RequestMission requestMission = optionalRequestMission.get();
+        Mission mission = Mission.builder()
+                .id(requestMission.getId())
+                .childId(requestMission.getChildId())
+                .parentId(requestMission.getParentId())
+                .startDate(requestMission.getStartDate())
+                .endDate(requestMission.getEndDate())
+                .content(requestMission.getContent())
+                .point(requestMission.getPoint())
+                .category(requestMission.getCategory())
+                .build();
+
+
+        missionRepository.save(mission);
+
+        requestMissionRepository.delete(requestMission);
+
+        log.info("request mission approved request_mission->mission");
+    }
+
+    public void rejectMission(Long id, String userId){
+        Optional<RequestMission> optionalRequestMission = requestMissionRepository.findByIdAndParentId(id, userId);
+        if(optionalRequestMission.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 미션 ID입니다.");
+        }
+        RequestMission requestMission = optionalRequestMission.get();
+        RejectRequestMission rejectRequestMission = RejectRequestMission.builder()
+                .id(requestMission.getId())
+                .childId(requestMission.getChildId())
+                .parentId(requestMission.getParentId())
+                .startDate(requestMission.getStartDate())
+                .endDate(requestMission.getEndDate())
+                .content(requestMission.getContent())
+                .point(requestMission.getPoint())
+                .category(requestMission.getCategory())
+                .build();
+
+
+        rejectRequestMissionRepository.save(rejectRequestMission);
+
+        requestMissionRepository.delete(requestMission);
+
+        log.info("request mission rejected request_mission->mission");
     }
 }
