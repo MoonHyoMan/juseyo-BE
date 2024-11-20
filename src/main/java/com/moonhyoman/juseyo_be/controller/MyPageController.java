@@ -1,5 +1,8 @@
 package com.moonhyoman.juseyo_be.controller;
 
+import com.moonhyoman.juseyo_be.dto.AccountNumberResponse;
+import com.moonhyoman.juseyo_be.dto.MissionCountResponse;
+import com.moonhyoman.juseyo_be.dto.PointResponse;
 import com.moonhyoman.juseyo_be.dto.ProfileResponse;
 import com.moonhyoman.juseyo_be.service.MyPageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,5 +36,29 @@ public class MyPageController {
         String userId = authentication.getName(); // JWT로부터 사용자 ID 추출
         ProfileResponse profile = myPageService.getProfile(userId);
         return ResponseEntity.ok(profile);
+    }
+
+    @GetMapping("/points")
+    @Operation(summary = "적립 금액 조회", description = "사용자의 총 적립 금액을 조회")
+    public ResponseEntity<PointResponse> getTotalPoints(Authentication authentication) {
+        String userId = authentication.getName(); // JWT로부터 사용자 ID 추출
+        PointResponse response = myPageService.getTotalPoints(userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/completed-missions")
+    @Operation(summary = "완료한 미션 수 조회", description = "사용자가 완료한 미션 횟수를 조회")
+    public ResponseEntity<MissionCountResponse> getCompletedMissions(Authentication authentication) {
+        String userId = authentication.getName();
+        MissionCountResponse response = myPageService.getCompletedMissionCount(userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/account-number")
+    @Operation(summary = "계좌 번호 조회", description = "사용자의 계좌 번호를 조회")
+    public ResponseEntity<AccountNumberResponse> getAccountNumber(Authentication authentication) {
+        String userId = authentication.getName();
+        AccountNumberResponse response = myPageService.getAccountNumber(userId);
+        return ResponseEntity.ok(response);
     }
 }

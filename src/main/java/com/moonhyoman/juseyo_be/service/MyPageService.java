@@ -2,6 +2,9 @@ package com.moonhyoman.juseyo_be.service;
 
 import com.moonhyoman.juseyo_be.domain.User;
 import com.moonhyoman.juseyo_be.dto.ProfileResponse;
+import com.moonhyoman.juseyo_be.dto.PointResponse;
+import com.moonhyoman.juseyo_be.dto.MissionCountResponse;
+import com.moonhyoman.juseyo_be.dto.AccountNumberResponse;
 import com.moonhyoman.juseyo_be.repository.SuccessMissionRepository;
 import com.moonhyoman.juseyo_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +47,31 @@ public class MyPageService {
         profileResponse.setLevel(level);
 
         return profileResponse;
+    }
+
+    public PointResponse getTotalPoints(String userId) {
+        // User 데이터 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 적립 금액 반환
+        return new PointResponse(user.getPoint());
+    }
+
+    public MissionCountResponse getCompletedMissionCount(String userId) {
+        // 완료한 미션 횟수 조회
+        int completedMissions = successMissionRepository.countByChildId(userId);
+
+        // 완료한 미션 수 반환
+        return new MissionCountResponse(completedMissions);
+    }
+
+    public AccountNumberResponse getAccountNumber(String userId) {
+        // User 데이터 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 계좌 번호 반환
+        return new AccountNumberResponse(user.getAccountNum());
     }
 }
