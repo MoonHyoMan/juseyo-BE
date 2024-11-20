@@ -16,7 +16,7 @@ public class UserAccountService {
         UserAccount userAccount = UserAccount.builder()
                 .depositer(id)
                 .accountNum(accountNum)
-                .amount(type.equals("child") ? 0 : 100000)
+                .amount(type.equals("child") ? 0 : 1000000)
                 .build();
 
         userAccountRepository.save(userAccount);
