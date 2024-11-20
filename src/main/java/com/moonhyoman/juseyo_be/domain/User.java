@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Builder
@@ -34,5 +35,21 @@ public class User {
 
     public void linkSocial(String social){
         this.social = social;
+    }
+
+    @Transactional
+    public void chargePoint(int point){
+        this.point = this.point + point;
+    }
+
+    @Transactional
+    public Boolean withdrawPoint(int point){
+        if(this.point<point){
+            return false;
+        }
+
+        this.point = this.point - point;
+
+        return true;
     }
 }

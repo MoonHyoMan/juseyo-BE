@@ -82,7 +82,6 @@ public class MissionService {
         }
         Mission mission = optionalMission.get();
 
-
         LocalDateTime now = LocalDateTime.now();
 
         // 원하는 형식으로 포맷 지정
@@ -100,9 +99,20 @@ public class MissionService {
                 .doneDate(now.format(formatter))
                 .build();
 
-        completeMissionRepository.save(completeMission);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User parent = optionalUser.get();
 
+        parent.withdrawPoint(mission.getPoint());
+
+        Optional<User> optionalUser2 = userRepository.findByParentId(userId);
+        User child = optionalUser2.get();
+
+        child.chargePoint(mission.getPoint());
+
+        completeMissionRepository.save(completeMission);
         missionRepository.delete(mission);
+        userRepository.save(parent);
+        userRepository.save(child);
     }
 
     public void failMission(Long id, String userId){
