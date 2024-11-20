@@ -45,12 +45,14 @@ public class MyPageController {
     }
 
     @GetMapping("/point/charge/{point}")
+    @Operation(summary = "포인트 충전 API", description = "계좌에서 포인트로 충전")
     public ResponseEntity chargePoint(Authentication authentication, @PathVariable int point){
         myPageService.chargePoint(authentication.getName(), point);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/point/withdraw/{point}")
+    @Operation(summary = "포인트 인출 API", description = "포인트에서 계좌로 입금")
     public ResponseEntity withdrawPoint(Authentication authentication, @PathVariable int point){
         myPageService.withdrawPoint(authentication.getName(), point);
         return ResponseEntity.ok().build();
