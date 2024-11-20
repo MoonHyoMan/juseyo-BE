@@ -114,7 +114,6 @@ public class AuthController {
     @GetMapping("/login/kakao")
     @Operation(summary = "kakao 로그인", description = "kakao 로그인 API<br>" + "카카오 인가코드를 보내고<br>" + "아이디가 있다면 토큰 발급<br>" + "없으면 400에러와 로그인 실패 return")
     @Parameters({@Parameter(name = "code", description = "카카오 인가코드")})
-    @CrossOrigin(value = "*")
     public ResponseEntity kakaoLogin(@RequestParam String code) {
         String accessToken = kakaoLoginService.getKakaoAccessToken(code);
 
