@@ -1,25 +1,31 @@
 package com.moonhyoman.juseyo_be.service;
 
 import com.moonhyoman.juseyo_be.domain.User;
+import com.moonhyoman.juseyo_be.domain.UserAccount;
 import com.moonhyoman.juseyo_be.dto.ProfileResponse;
 import com.moonhyoman.juseyo_be.dto.PointResponse;
 import com.moonhyoman.juseyo_be.dto.MissionCountResponse;
 import com.moonhyoman.juseyo_be.dto.AccountNumberResponse;
 import com.moonhyoman.juseyo_be.repository.SuccessMissionRepository;
+import com.moonhyoman.juseyo_be.repository.UserAccountRepository;
 import com.moonhyoman.juseyo_be.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
+@Slf4j
 @Service
 public class MyPageService {
-    private final UserRepository userRepository;
-    private final SuccessMissionRepository successMissionRepository;
-
     @Autowired
-    public MyPageService(UserRepository userRepository, SuccessMissionRepository successMissionRepository) {
-        this.userRepository = userRepository;
-        this.successMissionRepository = successMissionRepository;
-    }
+    private UserRepository userRepository;
+    @Autowired
+    private SuccessMissionRepository successMissionRepository;
+    @Autowired
+    private UserAccountRepository userAccountRepository;
 
     public ProfileResponse getProfile(String userId) {
         // User 데이터 조회
@@ -73,5 +79,40 @@ public class MyPageService {
 
         // 계좌 번호 반환
         return new AccountNumberResponse(user.getAccountNum());
+    }
+
+    public void chargePoint(String userId, int point){
+        UserAccount userAccount = userAccountRepository.findByDepositer(userId);
+
+        Boolean result = userAccount.minusAmount(point);
+        if(!result) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        userAccountRepository.save(userAccount);
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User user = optionalUser.get();
+
+        user.chargePoint(point);
+
+        userRepository.save(user);
+    }
+    public void withdrawPoint(String userId, int point){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User user = optionalUser.get();
+
+        boolean result = user.withdrawPoint(point);
+
+        if(!result){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        UserAccount userAccount = userAccountRepository.findByDepositer(userId);
+
+        userAccount.plusAmount(point);
+
+        userAccountRepository.save(userAccount);
+        userRepository.save(user);
     }
 }

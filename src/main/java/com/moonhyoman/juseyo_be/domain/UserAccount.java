@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Builder
@@ -22,4 +23,19 @@ public class UserAccount {
     public String depositer;
     public String accountNum;
     public int amount;
+
+    @Transactional
+    public void plusAmount(int amount){
+        this.amount = this.amount + amount;
+    }
+
+    @Transactional
+    public Boolean minusAmount(int amount){
+        if(this.amount < amount){
+            return false;
+        }
+        this.amount = this.amount - amount;
+
+        return true;
+    }
 }

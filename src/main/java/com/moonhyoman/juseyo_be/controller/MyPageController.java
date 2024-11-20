@@ -11,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -38,12 +36,24 @@ public class MyPageController {
         return ResponseEntity.ok(profile);
     }
 
-    @GetMapping("/points")
+    @GetMapping("/point")
     @Operation(summary = "적립 금액 조회", description = "사용자의 총 적립 금액을 조회")
     public ResponseEntity<PointResponse> getTotalPoints(Authentication authentication) {
         String userId = authentication.getName(); // JWT로부터 사용자 ID 추출
         PointResponse response = myPageService.getTotalPoints(userId);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/point/charge/{point}")
+    public ResponseEntity chargePoint(Authentication authentication, @PathVariable int point){
+        myPageService.chargePoint(authentication.getName(), point);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/point/withdraw/{point}")
+    public ResponseEntity withdrawPoint(Authentication authentication, @PathVariable int point){
+        myPageService.withdrawPoint(authentication.getName(), point);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/completed-missions")
