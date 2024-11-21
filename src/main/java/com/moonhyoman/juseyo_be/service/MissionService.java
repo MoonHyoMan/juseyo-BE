@@ -1,9 +1,6 @@
 package com.moonhyoman.juseyo_be.service;
 
-import com.moonhyoman.juseyo_be.domain.CompleteMission;
-import com.moonhyoman.juseyo_be.domain.FailMission;
-import com.moonhyoman.juseyo_be.domain.Mission;
-import com.moonhyoman.juseyo_be.domain.User;
+import com.moonhyoman.juseyo_be.domain.*;
 import com.moonhyoman.juseyo_be.repository.CompleteMissionRepository;
 import com.moonhyoman.juseyo_be.repository.FailMissionRepository;
 import com.moonhyoman.juseyo_be.repository.MissionRepository;
@@ -12,12 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +42,8 @@ public class MissionService {
         }else{
             missionList = missionRepository.findAllByChildId(userId);
         }
+
+        missionList.sort(Comparator.comparing(Mission::getEndDate));
 
         return missionList;
     }
@@ -75,6 +76,7 @@ public class MissionService {
         return failMissionissionList;
     }
 
+    @Transactional
     public void completeMission(Long id, String userId){
         Optional<Mission> optionalMission = missionRepository.findByIdAndParentId(id, userId);
         if(optionalMission.isEmpty()){
@@ -104,7 +106,7 @@ public class MissionService {
 
         parent.withdrawPoint(mission.getPoint());
 
-        Optional<User> optionalUser2 = userRepository.findByParentId(userId);
+        Optional<User> optionalUser2 = userRepository.findByIdAndParentId(mission.getChildId(), userId);
         User child = optionalUser2.get();
 
         child.chargePoint(mission.getPoint());
@@ -115,6 +117,7 @@ public class MissionService {
         userRepository.save(child);
     }
 
+    @Transactional
     public void failMission(Long id, String userId){
         Optional<Mission> optionalMission = missionRepository.findByIdAndParentId(id, userId);
         if(optionalMission.isEmpty()){
