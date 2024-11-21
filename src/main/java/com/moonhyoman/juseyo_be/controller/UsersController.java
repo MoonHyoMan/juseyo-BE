@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "Users", description = "회원 정보 API(정보 조회, 수정 등")
+@Tag(name = "Users", description = "회원 정보 API(정보 조회, 수정 등)")
 public class UsersController {
     private final UserService userService;
 
