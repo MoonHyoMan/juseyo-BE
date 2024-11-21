@@ -30,6 +30,5 @@ public class UsersController {
         String userId = authentication.getName(); // JWT에서 사용자 ID 추출
         UserResponse userResponse = userService.getMyInfo(userId);
         return ResponseEntity.ok(userResponse);
-
     }
 }
