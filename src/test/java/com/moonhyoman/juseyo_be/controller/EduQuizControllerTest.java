@@ -44,10 +44,8 @@ class EduQuizControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private EduQuizService eduQuizService;
-
     @MockBean
     private EduQuizRepository eduQuizRepository;
 
