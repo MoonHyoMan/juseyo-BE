@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,5 +19,5 @@ public class UserResponse {
 
     private String parentName;
 
-    private List<String> childNameList;
+    private List<Map<String, Object>> childNameList;
 }

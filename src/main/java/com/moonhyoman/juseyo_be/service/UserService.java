@@ -6,7 +6,9 @@ import com.moonhyoman.juseyo_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,8 +41,14 @@ public class UserService {
 
         List<User> childs = userRepository.findByParentId(userId);
 
-        List<String> childNames = childs.stream()
-                .map(User::getName) // User 객체에서 name 속성 추출
+
+        List<Map<String, Object>> childNameList = childs.stream()
+                .map(child -> {
+                    Map<String, Object> childMap = new HashMap<>();
+                    childMap.put("name", child.getName());
+                    childMap.put("point", child.getPoint()); // 예: 숫자 데이터
+                    return childMap;
+                })
                 .collect(Collectors.toList());
 
         return UserResponse.builder()
@@ -49,7 +57,7 @@ public class UserService {
                 .password(user.getPassword()) // 보안을 위해 필요에 따라 암호화 처리 가능
                 .accountNum(user.getAccountNum())
                 .type(user.getType())
-                .childNameList(childNames)
+                .childNameList(childNameList)
                 .build();
     }
 }
