@@ -58,8 +58,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         log.info("cors start");
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://juseyo-fe.vercel.app", "https://*.ngrok-free.app",
-                "http://*.ngrok-free.app")); // 허용할 도메인 설정
+        configuration.setAllowedOrigins(List.of("http://localhost:5173",
+                "https://juseyo-fe.vercel.app",
+                "https://*.ngrok-free.app",
+                "http://*.ngrok-free.app",
+                "https://www.juseyo.site")); // 허용할 도메인 설정
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
         configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더
         configuration.setExposedHeaders(List.of("*"));
