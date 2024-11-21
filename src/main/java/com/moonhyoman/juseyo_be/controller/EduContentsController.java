@@ -1,14 +1,17 @@
 package com.moonhyoman.juseyo_be.controller;
 
 import com.moonhyoman.juseyo_be.domain.EduContents;
+import com.moonhyoman.juseyo_be.dto.EduContentsDto;
 import com.moonhyoman.juseyo_be.service.EduContentsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -26,10 +29,12 @@ public class EduContentsController {
 
     @GetMapping("/videos")
     @Operation(summary = "교육 영상 목록 조회", description = "교육 비디오 조회")
-    public ResponseEntity<List<EduContents>> getAllVideos() {
-        List<EduContents> videoList = eduContentsService.findContentsByEduType("videos");
-        return ResponseEntity.ok(videoList);
+    public ResponseEntity<List<EduContentsDto>> getAllVideos() {// ResponseEntity<List<EduContents>>
+//        List<EduContents> videoList = eduContentsService.findContentsByEduType("videos");
+//        return ResponseEntity.ok(videoList);
+        return ResponseEntity.ok(eduContentsService.fetchYoutubeVideos());
     }
+
 
     @GetMapping("/articles")
     @Operation(summary = "교육 뉴스 기사 목록 조회", description = "교육 뉴스 기사 조회")
