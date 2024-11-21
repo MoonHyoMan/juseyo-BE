@@ -25,7 +25,11 @@ jobs:
         distribution: 'temurin'
         cache: gradle # 또는 'maven'
 
-    # 3. 의존성 캐싱
+    # 3. gradlew 파일에 실행 권한 부여
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+    # 4. 의존성 캐싱
     - name: Cache dependencies
       uses: actions/cache@v3
       with:
@@ -34,10 +38,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    # 4. 애플리케이션 빌드
+    # 5. 애플리케이션 빌드
     - name: Build with Gradle
       run: ./gradlew build # Maven 사용 시 `mvn package`로 변경
 
-    # 5. 테스트 실행
+    # 6. 테스트 실행
     - name: Run tests
       run: ./gradlew test # Maven 사용 시 `mvn test`로 변경
