@@ -15,8 +15,7 @@ public class EduQuiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String eduType; // 교육 유형 (video, article 등)
+    private String eduType;
 
     @ManyToOne(fetch = FetchType.LAZY) // Lazy 로딩으로 성능 최적화
     @JoinColumn(name = "group_id", nullable = false) // 외래 키 이름 지정
